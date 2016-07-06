@@ -1,2 +1,4 @@
 project/gamenect/node_modules/
 project/gamenect/_build/
+erl_crash.dump
+*.ez
