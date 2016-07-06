@@ -1,0 +1,32 @@
+<h2>Listing user lobby</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Lobby</th>
+      <th>Joined at</th>
+      <th>Left at</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for user_lobby <- @user_lobby do %>
+    <tr>
+      <td><%= user_lobby.user_id %></td>
+      <td><%= user_lobby.lobby_id %></td>
+      <td><%= user_lobby.joined_at %></td>
+      <td><%= user_lobby.left_at %></td>
+
+      <td class="text-right">
+        <%= link "Show", to: user_lobby_path(@conn, :show, user_lobby), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: user_lobby_path(@conn, :edit, user_lobby), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: user_lobby_path(@conn, :delete, user_lobby), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link "New user lobby", to: user_lobby_path(@conn, :new) %>

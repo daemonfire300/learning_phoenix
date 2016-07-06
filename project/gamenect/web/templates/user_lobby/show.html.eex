@@ -1,0 +1,28 @@
+<h2>Show user lobby</h2>
+
+<ul>
+
+  <li>
+    <strong>User:</strong>
+    <%= @user_lobby.user_id %>
+  </li>
+
+  <li>
+    <strong>Lobby:</strong>
+    <%= @user_lobby.lobby_id %>
+  </li>
+
+  <li>
+    <strong>Joined at:</strong>
+    <%= @user_lobby.joined_at %>
+  </li>
+
+  <li>
+    <strong>Left at:</strong>
+    <%= @user_lobby.left_at %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: user_lobby_path(@conn, :edit, @user_lobby) %>
+<%= link "Back", to: user_lobby_path(@conn, :index) %>

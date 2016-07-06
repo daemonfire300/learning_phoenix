@@ -1,0 +1,23 @@
+<%= form_for @changeset, @action, fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= label f, :joined_at, class: "control-label" %>
+    <%= datetime_select f, :joined_at, class: "form-control" %>
+    <%= error_tag f, :joined_at %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :left_at, class: "control-label" %>
+    <%= datetime_select f, :left_at, class: "form-control" %>
+    <%= error_tag f, :left_at %>
+  </div>
+
+  <div class="form-group">
+    <%= submit "Submit", class: "btn btn-primary" %>
+  </div>
+<% end %>

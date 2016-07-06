@@ -1,0 +1,31 @@
+<h2>Listing lobbies</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Created at</th>
+      <th>Finished at</th>
+      <th>Status</th>
+      <th>Password</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for lobby <- @lobbies do %>
+    <tr>
+      <td><%= lobby.title %></td>
+      <td><%= lobby.created_at %></td>
+      <td><%= lobby.finished_at %></td>
+      <td><%= lobby.status %></td>
+
+      <td class="text-right">
+        <%= link "View", to: lobby_path(@conn, :show, lobby), class: "btn btn-default btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link "New lobby", to: lobby_path(@conn, :new) %>

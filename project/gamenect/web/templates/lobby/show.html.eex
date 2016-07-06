@@ -1,0 +1,28 @@
+<h2>Show lobby</h2>
+
+<ul>
+
+  <li>
+    <strong>Title:</strong>
+    <%= @lobby.title %>
+  </li>
+
+  <li>
+    <strong>Created at:</strong>
+    <%= @lobby.created_at %>
+  </li>
+
+  <li>
+    <strong>Finished at:</strong>
+    <%= @lobby.finished_at %>
+  </li>
+
+  <li>
+    <strong>Status:</strong>
+    <%= @lobby.status %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: lobby_path(@conn, :edit, @lobby) %>
+<%= link "Back", to: lobby_path(@conn, :index) %>
