@@ -2,8 +2,20 @@ defmodule Gamenect.LobbyController do
   use Gamenect.Web, :controller
 
   alias Gamenect.Lobby
+  alias Gamenect.User
 
   plug :scrub_params, "lobby" when action in [:create, :update]
+
+  def join(conn, %{"id" => id}) do
+    case Repo.get(Lobby, id) do
+      nil ->
+        conn
+        |> put_flash(:error, "Lobby does not exist")
+        |> redirect(to: lobby_path(conn, :index))
+      lobby = %Lobby{} ->
+        render(conn, "show.html", lobby: lobby)
+    end
+  end
 
   def index(conn, params) do
     query = from p in Lobby

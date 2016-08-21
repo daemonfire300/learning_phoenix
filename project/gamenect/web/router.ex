@@ -13,10 +13,16 @@ defmodule Gamenect.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :browser_auth do  
+    plug Guardian.Plug.VerifySession
+    plug Guardian.Plug.LoadResource
+  end  
+
   scope "/", Gamenect do
-    pipe_through :browser # Use the default browser stack
+    pipe_through [:browser, :browser_auth]
 
     get "/", LobbyController, :index
+    get "/lobby/join/:id", LobbyController, :join
     resources "/users", UserController
     resources "/lobbies", LobbyController
     resources "/user_lobby", UserLobbyController

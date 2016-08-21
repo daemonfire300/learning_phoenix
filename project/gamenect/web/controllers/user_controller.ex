@@ -7,7 +7,9 @@ defmodule Gamenect.UserController do
     user = Repo.one!(from u in User, where: u.name == ^name)
     case User.authenticate?(user, password) do
       true ->
-        redirect(conn, to: user_path(conn, :show, user))
+        conn
+        |> Guardian.Plug.sign_in(user)
+        |> redirect(to: user_path(conn, :show, user))
       false ->
         conn
         |> put_flash(:error, "Invalid password")
