@@ -21,6 +21,13 @@ defmodule Gamenect.UserController do
     render(conn, "login.html", changeset: User.changeset(%User{}))
   end
 
+  def logout(conn, _params) do
+    conn
+    |> Guardian.Plug.sign_out
+    |> put_flash(:info, "Logged out")
+    |> redirect(to: "/")
+  end
+
   def index(conn, _params) do
     users = Repo.all(User)
     render(conn, "index.html", users: users)

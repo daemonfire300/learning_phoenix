@@ -52,6 +52,7 @@ defmodule Gamenect.Web do
       import Gamenect.Router.Helpers
       import Gamenect.ErrorHelpers
       import Gamenect.Gettext
+      import Gamenect.AuthHelper
     end
   end
 

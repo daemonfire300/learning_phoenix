@@ -26,6 +26,8 @@ defmodule Gamenect.Router do
     resources "/users", UserController
     resources "/lobbies", LobbyController
     resources "/user_lobby", UserLobbyController
+    get "/login", UserController, :login
+    post "/login", UserController, :login
   end
 
   # Other scopes may use custom stacks.
