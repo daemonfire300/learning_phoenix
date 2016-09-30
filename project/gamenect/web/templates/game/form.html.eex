@@ -12,9 +12,15 @@
   </div>
 
   <div class="form-group">
-    <%= label f, :password, class: "control-label" %>
-    <%= text_input f, :password, class: "form-control", placeholder: "Leave blank if not needed" %>
-    <%= error_tag f, :password %>
+    <%= label f, :category, class: "control-label" %>
+    <%= text_input f, :category, class: "form-control" %>
+    <%= error_tag f, :category %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :image, class: "control-label" %>
+    <%= text_input f, :image, class: "form-control" %>
+    <%= error_tag f, :image %>
   </div>
 
   <div class="form-group">

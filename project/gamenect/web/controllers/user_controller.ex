@@ -3,7 +3,13 @@ defmodule Gamenect.UserController do
 
   alias Gamenect.User
 
-  def login(conn, %{"name" => name, "password" => password}) do
+  def unauthenticated(conn, _params) do
+    conn
+    |> put_flash(:error, "Please login first")
+    |> redirect(to: user_path(Gamenect.Endpoint, :login))
+  end
+
+  def login(conn, %{"user" => %{"name" => name, "password" => password}}) do
     user = Repo.one!(from u in User, where: u.name == ^name)
     case User.authenticate?(user, password) do
       true ->
@@ -39,14 +45,14 @@ defmodule Gamenect.UserController do
   end
 
   def create(conn, %{"user" => user_params}) do
-    changeset = User.changeset(%User{}, user_params)
+    changeset = User.create_changeset(%User{}, user_params)
 
     case Repo.insert(changeset) do
       {:ok, _user} ->
         conn
         |> put_flash(:info, "User created successfully.")
         |> redirect(to: user_path(conn, :index))
-      {:error, changeset} ->
+      {:error, _} ->
         render(conn, "new.html", changeset: changeset)
     end
   end
@@ -58,13 +64,13 @@ defmodule Gamenect.UserController do
 
   def edit(conn, %{"id" => id}) do
     user = Repo.get!(User, id)
-    changeset = User.changeset(user)
+    changeset = User.changeset(user, %{password: ""})
     render(conn, "edit.html", user: user, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "user" => user_params}) do
     user = Repo.get!(User, id)
-    changeset = User.changeset(user, user_params)
+    changeset = User.create_changeset(user, user_params)
 
     case Repo.update(changeset) do
       {:ok, user} ->

@@ -1,0 +1,23 @@
+<h2>Show game</h2>
+
+<ul>
+
+  <li>
+    <strong>Title:</strong>
+    <%= @game.title %>
+  </li>
+
+  <li>
+    <strong>Category:</strong>
+    <%= @game.category %>
+  </li>
+
+  <li>
+    <strong>Image:</strong>
+    <%= @game.image %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: game_path(@conn, :edit, @game) %>
+<%= link "Back", to: game_path(@conn, :index) %>

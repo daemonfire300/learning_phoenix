@@ -12,21 +12,9 @@
   </div>
 
   <div class="form-group">
-    <%= label f, :joindate, class: "control-label" %>
-    <%= datetime_select f, :joindate, class: "form-control" %>
-    <%= error_tag f, :joindate %>
-  </div>
-
-  <div class="form-group">
     <%= label f, :password, class: "control-label" %>
-    <%= text_input f, :password, class: "form-control" %>
+    <%= text_input f, :password, class: "form-control", type: "password" %>
     <%= error_tag f, :password %>
-  </div>
-
-  <div class="form-group">
-    <%= label f, :salt, class: "control-label" %>
-    <%= text_input f, :salt, class: "form-control" %>
-    <%= error_tag f, :salt %>
   </div>
 
   <div class="form-group">

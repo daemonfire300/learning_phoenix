@@ -3,7 +3,6 @@ defmodule Gamenect.Lobby do
 
   schema "lobbies" do
     field :title, :string
-    field :created_at, Ecto.DateTime
     field :finished_at, Ecto.DateTime
     field :status, :integer
     field :password, :string
@@ -17,7 +16,14 @@ defmodule Gamenect.Lobby do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:title, :created_at, :finished_at, :status, :password, :max_players])
+    |> cast(params, [:title, :finished_at, :status, :password, :max_players])
+    |> validate_required([:title])
+    |> validate_inclusion(:max_players, 1..255)
+  end
+
+  def create_changeset(struct, params \\ %{}) do
+    struct 
+    |> cast(params, [:title, :password, :max_players])
     |> validate_required([:title])
     |> validate_inclusion(:max_players, 1..255)
   end

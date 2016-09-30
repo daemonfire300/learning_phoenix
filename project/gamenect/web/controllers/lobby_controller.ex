@@ -2,7 +2,6 @@ defmodule Gamenect.LobbyController do
   use Gamenect.Web, :controller
 
   alias Gamenect.Lobby
-  alias Gamenect.User
 
   plug :scrub_params, "lobby" when action in [:create, :update]
 
@@ -24,12 +23,12 @@ defmodule Gamenect.LobbyController do
   end
 
   def new(conn, _params) do
-    changeset = Lobby.changeset(%Lobby{})
+    changeset = Lobby.create_changeset(%Lobby{})
     render(conn, "new.html", changeset: changeset)
   end
 
   def create(conn, %{"lobby" => lobby_params}) do
-    changeset = Lobby.changeset(%Lobby{}, lobby_params)
+    changeset = Lobby.create_changeset(%Lobby{}, lobby_params)
 
     case Repo.insert(changeset) do
       {:ok, _lobby} ->

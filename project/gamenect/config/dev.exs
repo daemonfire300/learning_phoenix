@@ -36,7 +36,7 @@ config :phoenix, :stacktrace_depth, 20
 # Configure your database
 config :gamenect, Gamenect.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
+  username: "gamenect",
   password: "123",
   database: "gamenect",
   hostname: "localhost",
