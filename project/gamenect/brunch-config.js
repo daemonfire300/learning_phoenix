@@ -51,6 +51,16 @@ exports.config = {
 
   // Configure your plugins
   plugins: {
+    sass: {
+      options: {
+        includePaths: ["node_modules/bootstrap-sass/assets/stylesheets"] // tell sass-brunch where to look for files to @import
+      },
+      precision: 8 // minimum precision required by bootstrap-sass
+    },
+    copycat: {
+      verbose: true,
+      "fonts": ["node_modules/bootstrap-sass/assets/fonts/bootstrap"] // copy node_modules/bootstrap-sass/assets/fonts/bootstrap/* to priv/static/fonts/
+    },
     babel: {
       // Do not use ES6 compiler in vendor code
       ignore: [/web\/static\/vendor/]
@@ -59,11 +69,19 @@ exports.config = {
 
   modules: {
     autoRequire: {
-      "js/app.js": ["web/static/js/app"]
+      "js/app.js": [
+        "web/static/js/app",
+        "bootstrap-sass"
+      ]
     }
   },
 
   npm: {
-    enabled: true
+    enabled: true,
+    whitelist: ["phoenix", "phoenix_html", "jquery", "bootstrap-sass"], // pull jquery and bootstrap-sass in as front-end assets
+    globals: { // bootstrap-sass' JavaScript requires both '$' and 'jQuery' in global scope
+      $: 'jquery',
+      jQuery: 'jquery'
+    }
   }
 };
