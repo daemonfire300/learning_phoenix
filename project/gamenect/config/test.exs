@@ -12,8 +12,8 @@ config :logger, level: :warn
 # Configure your database
 config :gamenect, Gamenect.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
+  username: "gamenect",
+  password: "123",
   database: "gamenect_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox

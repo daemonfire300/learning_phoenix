@@ -20,7 +20,7 @@ defmodule Gamenect.Router do
 
   pipeline :needs_admin do
     plug Guardian.Plug.EnsureAuthenticated, handler: Gamenect.UserController
-    plug Gamenect.AuthPlug
+    plug Gamenect.AuthPlug, ["admin", "moderator"]
   end
 
   scope "/admin", Gamenect do

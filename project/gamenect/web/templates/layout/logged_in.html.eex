@@ -1,6 +1,14 @@
 <%= if logged_in?(@conn) do %>
-  <%= link "Sign out", to: user_path(@conn, :logout), class: "btn btn-danger" %><br>
-  <%= current_user(@conn).name %>
+  <div class="row">
+    <div class="col-md-4 col-xs-4">You are: <%= current_user(@conn).name %></div>
+    <div class="col-lg-8 col-xs-4 main-nav">
+        <a class="bg-success" href="<%= lobby_path(@conn, :new) %>">Create Lobby<a>
+        <a class="bg-primary" href="">Matchmaker<a>
+        <a class="bg-danger" href="">Random<a>
+        <a class="bg-warning" href="<%= lobby_path(@conn, :index) %>">Lobbies<a>
+    </div>
+    <div class="col-lg-1 col-xs-1"><%= link "Sign out", to: user_path(@conn, :logout), class: "btn btn-danger" %></div>
+  </div>
 <% else %>
   <%= link "Create new account", to: user_path(@conn, :new), 
       class: "btn btn-danger" %>
