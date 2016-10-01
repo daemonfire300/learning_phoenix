@@ -45,16 +45,30 @@ function setInputValue(elem, value){
 function renderGameSelection(anchor, games){
     let anchor_elem = document.querySelector(anchor);
     anchor_elem.innerHTML = "";
+    let info = document.createElement("div");
+    let infoText = document.createElement("span");
+    infoText.setAttribute("class", "bg-info");
+    infoText.innerHTML = "Please select your game from the list";
+    info.appendChild(infoText);
+    anchor_elem.appendChild(info);
     let list = document.createElement("ul");
     games.forEach(function(v){
         list.appendChild(renderSingleGameEntry(v, function(ev){
-            setInputValue(document.querySelector(gameSelectInputName), ev.originalTarget.innerHTML);
+            let selectedGame = ev.originalTarget;
+            setInputValue(document.querySelector(gameSelectInputName), selectedGame.innerHTML);
+            setInputValue(document.querySelector(gameSelectInputID), v.id);
+            let listItems = Array.from(document.querySelectorAll(gameSelectionAnchorName + " ul li"));
+            listItems.forEach(function(i){
+                i.classList.remove("selected");
+            });
+            selectedGame.classList.add("selected");
         }));
     });
     anchor_elem.appendChild(list);
 }
 var gameSelectionAnchorName = "div.game-list";
-var gameSelectInputName = '#lobby_game';
+var gameSelectInputName = '#lobby_game_title';
+var gameSelectInputID = '#lobby_game_id';
 var AppSearchGame = {
     run: function () {
         let game_title_input = document.querySelector(gameSelectInputName);

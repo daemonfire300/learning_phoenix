@@ -7,7 +7,7 @@ defmodule Gamenect.Lobby do
     field :status, :integer
     field :password, :string
     field :max_players, :integer
-
+    belongs_to :game, Gamenect.Game
     timestamps()
   end
 
@@ -23,8 +23,9 @@ defmodule Gamenect.Lobby do
 
   def create_changeset(struct, params \\ %{}) do
     struct 
-    |> cast(params, [:title, :password, :max_players])
-    |> validate_required([:title])
+    |> cast(params, [:title, :password, :max_players, :game_id])
+    |> assoc_constraint(:game)
+    |> validate_required([:title, :game_id])
     |> validate_inclusion(:max_players, 1..255)
   end
 

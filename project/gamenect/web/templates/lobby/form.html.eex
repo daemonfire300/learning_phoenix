@@ -12,9 +12,12 @@
   </div>
 
   <div class="form-group">
-    <%= label f, :game, class: "control-label" %>
-    <%= text_input f, :game, class: "form-control" %>
-    <%= error_tag f, :game %>
+    <%= inputs_for f, :game, fn i -> %>
+    <%= label i, "Game", class: "control-label" %>
+    <%= text_input i, :title, class: "form-control" %>
+    <% end %>
+    <%= hidden_input f, :game_id, class: "form-control" %>
+    <%= error_tag f, :game_id %>
     <div class="game-list"></div>
   </div>
 

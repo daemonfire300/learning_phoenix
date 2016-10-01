@@ -23,19 +23,24 @@ defmodule Gamenect.LobbyController do
   end
 
   def new(conn, _params) do
-    changeset = Lobby.create_changeset(%Lobby{})
+    changeset = Lobby.changeset(%Lobby{})
     render(conn, "new.html", changeset: changeset)
   end
 
   def create(conn, %{"lobby" => lobby_params}) do
+    #%{"game_id" => game_id} = lobby_params
+    IO.inspect lobby_params
+    #lobby_params = Map.merge(lobby_params, %{"game" => game_id})
+    #IO.inspect lobby_params
     changeset = Lobby.create_changeset(%Lobby{}, lobby_params)
-
+    IO.inspect changeset
     case Repo.insert(changeset) do
       {:ok, _lobby} ->
         conn
         |> put_flash(:info, "Lobby created successfully.")
         |> redirect(to: lobby_path(conn, :index))
       {:error, changeset} ->
+        IO.inspect changeset
         render(conn, "new.html", changeset: changeset)
     end
   end

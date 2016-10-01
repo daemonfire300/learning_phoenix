@@ -21,7 +21,18 @@ div.game-list ul li{
     padding: 3px;
 }
 
+div.game-list ul li.selected{
+    color: orange;
+    font-weight: bold;
+    border-color: orange;
+    border-style: solid;
+    border-width: thin;
+    max-width: min-content;
+    max-width: -moz-fit-content;
+    max-width: -webkit-fit-content;
+}
+
 div.game-list ul li:hover{
     font-weight: bold;
-    padding-left: 4px;
+    cursor: pointer;
 }
