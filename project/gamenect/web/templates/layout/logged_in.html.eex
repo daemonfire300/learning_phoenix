@@ -6,6 +6,10 @@
         <a class="bg-primary" href="">Matchmaker<a>
         <a class="bg-danger" href="">Random<a>
         <a class="bg-warning" href="<%= lobby_path(@conn, :index) %>">Lobbies<a>
+        <%= if is_allowed?(@conn, ["admin", "moderator"]) do %>
+        <a class="bg-warning" href="<%= game_path(@conn, :index) %>">Games<a>
+        <a class="bg-warning" href="<%= user_path(@conn, :index) %>">Players<a>
+        <% end %>
     </div>
     <div class="col-lg-1 col-xs-1"><%= link "Sign out", to: user_path(@conn, :logout), class: "btn btn-danger" %></div>
   </div>

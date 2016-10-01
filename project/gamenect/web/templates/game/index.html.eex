@@ -1,21 +1,21 @@
 <h2>Listing games</h2>
 
-<table class="table">
+<table class="table game-list-view">
   <thead>
     <tr>
+      <th></th>
       <th>Title</th>
       <th>Category</th>
-      <th>Image</th>
 
       <th></th>
     </tr>
   </thead>
   <tbody>
 <%= for game <- @games do %>
-    <tr>
+    <tr style="background-image: url('<%= game.image %>')">
       <td><%= game.title %></td>
       <td><%= game.category %></td>
-      <td><%= game.image %></td>
+      
 
       <td class="text-right">
         <%= link "Show", to: game_path(@conn, :show, game), class: "btn btn-default btn-xs" %>

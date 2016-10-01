@@ -3,14 +3,15 @@ defmodule Gamenect.AuthPlug do
     alias Gamenect.User
 
     def init(default), do: default
-    
+    def is_moderator(conn, default) do
+        %User{:name => username} = Guardian.Plug.current_resource(conn)
+        Enum.member?(default, username)
+    end
     @doc """
     This plug assume that there is a current ressource, and checks wether this user has admin privilige.
     """
     def requires_moderator(conn, default) do
-        %User{:name => username} = Guardian.Plug.current_resource(conn)
-        
-        case Enum.member?(default, username) do
+        case is_moderator(conn, default) do
             true ->
                 conn
             _ ->

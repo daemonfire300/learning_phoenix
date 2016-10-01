@@ -3,6 +3,14 @@ defmodule Gamenect.GameController do
 
   alias Gamenect.Game
 
+  def search(conn, params) do
+    title = params["q"]
+    qry = from g in Game, where: fragment("levenshtein(?,?) > ?", g.title, ^title, 0.9)
+    games = Repo.all qry
+    #IO.inspect %{"games": games}
+    render conn, "list.json", games: games
+  end
+
   def index(conn, _params) do
     games = Repo.all(Game)
     render(conn, "index.html", games: games)
