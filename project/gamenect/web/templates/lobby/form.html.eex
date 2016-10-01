@@ -13,8 +13,9 @@
 
   <div class="form-group">
     <%= label f, :game, class: "control-label" %>
-    <%= text_input f, :game, class: "form-control ui-autocomplete-input" %>
+    <%= text_input f, :game, class: "form-control" %>
     <%= error_tag f, :game %>
+    <div class="game-list"></div>
   </div>
 
   <div class="form-group">

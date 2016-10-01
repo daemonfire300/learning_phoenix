@@ -3,7 +3,25 @@ div.main-nav a{
 }
 
 table.game-list-view tr{
-    background-position: left;
+    background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+}
+
+table.game-list-view td:first-child{
+    width: 128px;
+}
+
+table.game-list-view td:first-child{
+    font-weight: bold;
+}
+
+div.game-list ul li{
+    list-style: none;
+    padding: 3px;
+}
+
+div.game-list ul li:hover{
+    font-weight: bold;
+    padding-left: 4px;
 }

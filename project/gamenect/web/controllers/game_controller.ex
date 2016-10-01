@@ -3,11 +3,17 @@ defmodule Gamenect.GameController do
 
   alias Gamenect.Game
 
-  def search(conn, params) do
-    title = params["q"]
-    qry = from g in Game, where: fragment("levenshtein(?,?) > ?", g.title, ^title, 0.9)
-    games = Repo.all qry
-    #IO.inspect %{"games": games}
+  def search(conn, %{"q" => title} = params) do
+    IO.inspect Game.search_changeset(params)
+    games = 
+      case Game.search_changeset(params) do
+        {:ok, %{q: title}} ->
+          title = title <> "%"
+          qry = from g in Game, where: like(g.title, ^title)
+          Repo.all qry
+        _ ->
+          %{} 
+      end
     render conn, "list.json", games: games
   end
 

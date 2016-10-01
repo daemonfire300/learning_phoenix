@@ -6,14 +6,15 @@
       <th></th>
       <th>Title</th>
       <th>Category</th>
-
+      <th></th>
       <th></th>
     </tr>
   </thead>
   <tbody>
 <%= for game <- @games do %>
-    <tr style="background-image: url('<%= game.image %>')">
-      <td><%= game.title %></td>
+    <tr>
+      <td style="background-image: url('<%= game.image %>')"></td>
+      <td><span><%= game.title %></span></td>
       <td><%= game.category %></td>
       
 

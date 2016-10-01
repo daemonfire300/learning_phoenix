@@ -17,4 +17,17 @@ defmodule Gamenect.Game do
     |> cast(params, [:title, :category, :image])
     |> validate_required([:title, :category, :image])
   end
+
+  def search_changeset(%{"q" => term} = params) do
+    changeset =
+      cast( {%{q: ""}, %{q: :string}} , params, [:q])
+      |> validate_length(:q, min: 3)
+    IO.inspect changeset
+    case changeset.valid? do
+      true ->
+        {:ok, apply_changes(changeset)}
+      _ ->
+        {:error, changeset}
+    end
+  end
 end
