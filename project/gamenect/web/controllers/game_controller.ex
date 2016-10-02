@@ -4,7 +4,6 @@ defmodule Gamenect.GameController do
   alias Gamenect.Game
 
   def search(conn, %{"q" => title} = params) do
-    IO.inspect Game.search_changeset(params)
     games = 
       case Game.search_changeset(params) do
         {:ok, %{q: title}} ->
