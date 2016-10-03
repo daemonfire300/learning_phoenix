@@ -2,16 +2,25 @@ defmodule Gamenect.LobbyController do
   use Gamenect.Web, :controller
 
   alias Gamenect.Lobby
+  alias Gamenect.UserLobby
 
   plug :scrub_params, "lobby" when action in [:create, :update]
+  plug Guardian.Plug.EnsureAuthenticated when action in [:join]
 
   def join(conn, %{"id" => id}) do
+    %Gamenect.User{:id => user_id} = Guardian.Plug.current_resource(conn)
     case Repo.get(Lobby, id) do
       nil ->
         conn
         |> put_flash(:error, "Lobby does not exist")
         |> redirect(to: lobby_path(conn, :index))
       lobby = %Lobby{} ->
+        user_lobby = UserLobby.add_join_date(%UserLobby{
+        }, %{
+          "user_id" => user_id,
+          "lobby_id" => id,
+          "lobby" => lobby
+        })
         render(conn, "show.html", lobby: lobby)
     end
   end

@@ -74,7 +74,7 @@ var AppSearchGame = {
         let game_title_input = document.querySelector(gameSelectInputName);
         if (game_title_input) {
             game_title_input.onkeypress = function () {
-                $.getJSON("/api/v1/game?q=" + game_title_input.value, function (data) {
+                $.getJSON("/api/v1/game?title=" + game_title_input.value, function (data) {
                     let games = Array.from(data.games);
                     renderGameSelection(gameSelectionAnchorName, games);
                 });

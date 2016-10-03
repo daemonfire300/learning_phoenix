@@ -3,10 +3,11 @@ defmodule Gamenect.GameController do
 
   alias Gamenect.Game
 
-  def search(conn, %{"q" => title} = params) do
+  def search(conn, %{"title" => title} = params) do
+    changeset = Game.search_changeset(%Game{}, params)
     games = 
-      case Game.search_changeset(params) do
-        {:ok, %{q: title}} ->
+      case changeset.valid? do
+        true ->
           title = title <> "%"
           qry = from g in Game, where: like(g.title, ^title)
           Repo.all qry
