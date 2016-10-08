@@ -15,7 +15,7 @@ defmodule Gamenect.LobbyController do
         |> put_flash(:error, "Lobby does not exist")
         |> redirect(to: lobby_path(conn, :index))
       lobby = %Lobby{} ->
-        user_lobby = UserLobby.add_join_date(%UserLobby{
+        user_lobby = UserLobby.join_changeset(%UserLobby{
         }, %{
           "user_id" => user_id,
           "lobby_id" => id,
