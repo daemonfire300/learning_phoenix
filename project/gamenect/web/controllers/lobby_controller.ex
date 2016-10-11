@@ -7,6 +7,10 @@ defmodule Gamenect.LobbyController do
   plug :scrub_params, "lobby" when action in [:create, :update]
   plug Guardian.Plug.EnsureAuthenticated when action in [:join]
 
+  def get_player_count(id) do
+    Repo.one!(from u in UserLobby, where: u.lobby_id == ^id, select: count(u.user_id))
+  end
+
   def join(conn, %{"id" => id}) do
     %Gamenect.User{:id => user_id} = Guardian.Plug.current_resource(conn)
     case Repo.get(Lobby, id) do
@@ -15,19 +19,35 @@ defmodule Gamenect.LobbyController do
         |> put_flash(:error, "Lobby does not exist")
         |> redirect(to: lobby_path(conn, :index))
       lobby = %Lobby{} ->
+        player_count = get_player_count(id)
+        IO.inspect user_id
+        IO.inspect id
+        IO.inspect lobby
+        IO.inspect player_count
         user_lobby = UserLobby.join_changeset(%UserLobby{
         }, %{
           "user_id" => user_id,
           "lobby_id" => id,
-          "lobby" => lobby
+          "lobby" => lobby,
+          "max_players" => lobby.max_players || 5,
+          "player_count" => player_count
         })
-        render(conn, "show.html", lobby: lobby)
+        case Repo.insert(user_lobby) do
+          {:ok, _joined} ->
+            conn
+            |> put_flash(:info, "Joined lobby")
+            |> render("show.html", lobby: lobby)
+          {:error, err} ->
+            conn
+            |> put_flash(:error, err)
+            |> redirect(to: lobby_path(conn, :index))
+        end
     end
   end
 
   def index(conn, params) do
     query = from p in Lobby
-    lobbies = Lobby.ordered_by(query, Map.get(params, "order_by"), Map.get(params, "order", :none)) |> Repo.all
+    lobbies = Lobby.ordered_by(query, Map.get(params, "order_by"), Map.get(params, "order", :none)) |> Repo.all |> Repo.preload(:game)
     render(conn, "index.html", lobbies: lobbies)
   end
 

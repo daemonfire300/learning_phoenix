@@ -6,7 +6,8 @@ defmodule Gamenect.UserLobby do
     field :left_at, Ecto.DateTime
     belongs_to :user, Gamenect.User
     belongs_to :lobby, Gamenect.Lobby
-
+    field :max_players, :integer, virtual: true
+    field :player_count, :integer, virtual: true
     timestamps()
   end
 

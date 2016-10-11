@@ -13,7 +13,7 @@
   <tbody>
 <%= for lobby <- @lobbies do %>
     <tr>
-      <td>_</td>
+      <td><%= lobby.game.title %></td>
       <td><%= lobby.title %></td>
       <td><%= status_to_text lobby.status %></td>
 
