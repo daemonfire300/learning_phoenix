@@ -4,10 +4,11 @@ defmodule Gamenect.Lobby do
   schema "lobbies" do
     field :title, :string
     field :finished_at, Ecto.DateTime
-    field :status, :integer
+    field :status, :integer, default: 1
     field :password, :string
     field :max_players, :integer
     belongs_to :game, Gamenect.Game
+    belongs_to :host, Gamenect.User
     timestamps()
   end
 
@@ -23,8 +24,9 @@ defmodule Gamenect.Lobby do
 
   def create_changeset(struct, params \\ %{}) do
     struct 
-    |> cast(params, [:title, :password, :max_players, :game_id])
+    |> cast(params, [:title, :password, :max_players, :game_id, :host_id])
     |> assoc_constraint(:game)
+    |> assoc_constraint(:host)
     |> validate_required([:title, :game_id])
     |> validate_inclusion(:max_players, 1..255)
   end

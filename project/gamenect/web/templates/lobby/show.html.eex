@@ -1,20 +1,13 @@
-<h2><%= @lobby.title %></h2>
-
-<ul>
-  <li>
-    <strong>Finished at:</strong>
-    <%= @lobby.finished_at %>
-  </li>
-
-  <li>
-    <strong>Status:</strong>
-    <%= @lobby.status %>
-  </li>
-
-</ul>
-
-<%= link "Edit", to: lobby_path(@conn, :edit, @lobby) %> 
+<div class="lobby-header" style="background-image: url('<%= @lobby.game.image %>')"></div>
+<div>
+  <h2><%= @lobby.title %> (<%= if is_owner(current_user(@conn), @lobby) do %><%= link "Edit", to: lobby_path(@conn, :edit, @lobby) %><% end %>)</h2>
+  <div>playing <%= @lobby.game.title %></div>
+  <div>hosted by <span class="player-tag lobby-host"><%= @lobby.host.name %></span></div>
+  <div>Status: <span class="glyphicon <%= status_to_icon @lobby.status %>" aria-hidden="true"></span> (<%= status_to_text @lobby.status %>)</div>
+  <div>Maximum Players: <%= @lobby.max_players || "any" %></div>
+</div>
 
 <%= link "Back", to: lobby_path(@conn, :index) %> 
 
 <%= link "Join", to: lobby_path(@conn, :join, @lobby.id) %>
+<div class="lobby-header" style="background-image: url('<%= @lobby.game.image %>')"></div>

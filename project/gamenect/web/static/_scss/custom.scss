@@ -2,10 +2,30 @@ div.main-nav a{
     padding: 5px;
 }
 
-table.game-list-view tr{
+span.status-open {
+    color: hsl(90.5, 100%, 49.4%);
+}
+
+span.status-closed {
+    color: hsl(25, 100%, 34.5%);
+}
+
+span.status-private {
+    color: hsl(182.5, 100%, 34.9%);
+}
+
+table.game-list-view tr, div.lobby-header{
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+}
+
+div.lobby-header {
+    height: 60px;
+}
+
+div.app-title {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 table.game-list-view td:first-child{
@@ -35,4 +55,12 @@ div.game-list ul li.selected{
 div.game-list ul li:hover{
     font-weight: bold;
     cursor: pointer;
+}
+
+span.player-tag {
+    font-family: Courier New, Courier, monospace;
+}
+
+span.lobby-host {
+    color: hsl(0, 100%, 39.8%);
 }

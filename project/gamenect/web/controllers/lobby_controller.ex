@@ -57,10 +57,8 @@ defmodule Gamenect.LobbyController do
   end
 
   def create(conn, %{"lobby" => lobby_params}) do
-    #%{"game_id" => game_id} = lobby_params
-    IO.inspect lobby_params
-    #lobby_params = Map.merge(lobby_params, %{"game" => game_id})
-    #IO.inspect lobby_params
+    %Gamenect.User{:id => user_id} = Guardian.Plug.current_resource(conn)
+    lobby_params = Map.merge(lobby_params, %{"host_id" => user_id})
     changeset = Lobby.create_changeset(%Lobby{}, lobby_params)
     IO.inspect changeset
     case Repo.insert(changeset) do
@@ -75,7 +73,7 @@ defmodule Gamenect.LobbyController do
   end
 
   def show(conn, %{"id" => id}) do
-    lobby = Repo.get!(Lobby, id)
+    lobby = Repo.get!(Lobby, id) |> Repo.preload([:host, :game])
     render(conn, "show.html", lobby: lobby)
   end
 

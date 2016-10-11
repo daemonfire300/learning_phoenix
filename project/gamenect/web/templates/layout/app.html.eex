@@ -17,7 +17,7 @@
         <nav role="navigation">
           <%= render "logged_in.html", assigns %>
         </nav>
-        <a href="<%= lobby_path(@conn, :index) %>"><h1><span class="glyphicon glyphicon-flash" aria-hidden="true"</span> Gamenct <span class="glyphicon glyphicon-flash" aria-hidden="true"</span></h1></a>
+        <a href="<%= lobby_path(@conn, :index) %>"><h2 class="app-title">(Gamenect)</h2></a>
       </header>
 
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>

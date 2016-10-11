@@ -16,5 +16,23 @@ defmodule Gamenect.LobbyView do
     "unknown"
   end
 
+  def status_to_icon(status) when is_integer(status) do
+    case status do
+      0 ->
+        "glyphicon glyphicon-remove status-closed"
+      1 ->
+        "glyphicon glyphicon-ok status-open"
+      2 ->
+        "glyphicon glyphicon-user status-private"
+    end
+  end
+
+  def status_to_icon(status) do
+    "glyphicon glyphicon-flash"
+  end
+
+  def is_owner(user, lobby) do
+    user.id == lobby.host.id
+  end
 
 end
