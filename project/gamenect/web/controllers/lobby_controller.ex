@@ -3,12 +3,22 @@ defmodule Gamenect.LobbyController do
 
   alias Gamenect.Lobby
   alias Gamenect.UserLobby
+  alias Gamenect.User
 
   plug :scrub_params, "lobby" when action in [:create, :update]
   plug Guardian.Plug.EnsureAuthenticated when action in [:join]
 
   def get_player_count(id) do
-    Repo.one!(from u in UserLobby, where: u.lobby_id == ^id, select: count(u.user_id))
+    Repo.one!(from u in UserLobby, where: u.lobby_id == ^id, select: count(u.user_id)) || 0
+  end
+
+  def get_players(id) do
+    Repo.all(from u in UserLobby, join: p in User, on: u.user_id == p.id, where: u.lobby_id == ^id, select: p)
+  end
+
+  def get_players_and_count(id) do
+    players = get_players(id)
+    [Enum.count(players), players]
   end
 
   def join(conn, %{"id" => id}) do
@@ -19,27 +29,25 @@ defmodule Gamenect.LobbyController do
         |> put_flash(:error, "Lobby does not exist")
         |> redirect(to: lobby_path(conn, :index))
       lobby = %Lobby{} ->
-        player_count = get_player_count(id)
-        IO.inspect user_id
-        IO.inspect id
-        IO.inspect lobby
-        IO.inspect player_count
+        [player_count, players]  = get_players_and_count(id)
         user_lobby = UserLobby.join_changeset(%UserLobby{
         }, %{
           "user_id" => user_id,
           "lobby_id" => id,
           "lobby" => lobby,
           "max_players" => lobby.max_players || 5,
-          "player_count" => player_count
+          "player_count" => player_count,
+          "players" => Enum.map(players, fn(p) -> p.id end)
         })
+        IO.inspect user_lobby
         case Repo.insert(user_lobby) do
           {:ok, _joined} ->
             conn
             |> put_flash(:info, "Joined lobby")
-            |> render("show.html", lobby: lobby)
-          {:error, err} ->
+            |> redirect(to: lobby_path(conn, :show, id))
+          {:error, changeset} ->
             conn
-            |> put_flash(:error, err)
+            |> put_flash(:error, "Could not join lobby")
             |> redirect(to: lobby_path(conn, :index))
         end
     end
@@ -74,7 +82,9 @@ defmodule Gamenect.LobbyController do
 
   def show(conn, %{"id" => id}) do
     lobby = Repo.get!(Lobby, id) |> Repo.preload([:host, :game])
-    render(conn, "show.html", lobby: lobby)
+    players = get_players(id)
+    IO.inspect players
+    render(conn, "show.html", lobby: lobby, players: players)
   end
 
   def edit(conn, %{"id" => id}) do

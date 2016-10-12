@@ -31,6 +31,10 @@ defmodule Gamenect.LobbyView do
     "glyphicon glyphicon-flash"
   end
 
+  def is_owner(nil, lobby) do
+    false
+  end
+  
   def is_owner(user, lobby) do
     user.id == lobby.host.id
   end

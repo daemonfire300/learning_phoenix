@@ -1,13 +1,28 @@
-<div class="lobby-header" style="background-image: url('<%= @lobby.game.image %>')"></div>
-<div>
-  <h2><%= @lobby.title %> (<%= if is_owner(current_user(@conn), @lobby) do %><%= link "Edit", to: lobby_path(@conn, :edit, @lobby) %><% end %>)</h2>
-  <div>playing <%= @lobby.game.title %></div>
-  <div>hosted by <span class="player-tag lobby-host"><%= @lobby.host.name %></span></div>
-  <div>Status: <span class="glyphicon <%= status_to_icon @lobby.status %>" aria-hidden="true"></span> (<%= status_to_text @lobby.status %>)</div>
-  <div>Maximum Players: <%= @lobby.max_players || "any" %></div>
+<div class="lobby-header row"></div>
+<div class="row">
+  <div class="col-md-6 col-md-offset-1">
+    <div class="row"><h2><%= @lobby.title %> <%= if is_owner(current_user(@conn), @lobby) do %>(<%= link "Edit", to: lobby_path(@conn, :edit, @lobby) %>)<% end %></h2></div>
+    <div class="row">playing <%= @lobby.game.title %></div>
+    <div class="row">hosted by <span class="player-tag lobby-host"><%= @lobby.host.name %></span></div>
+    <div class="row">Status: <span class="glyphicon <%= status_to_icon @lobby.status %>" aria-hidden="true"></span> (<%= status_to_text @lobby.status %>)</div>
+    <div class="row">Maximum Players: <%= @lobby.max_players || "any" %></div>
+  </div>
+  <div class="col-md-4">
+    <div class="row"><h3>Players</h3></div>
+    <div class="row">
+      <ul>
+      <%= for player <- @players do %>
+        <li><%= player.name %></li>
+      <%= else %>
+      No players
+      <% end %>
+      </ul>
+    </div>
+  </div>
 </div>
-
-<%= link "Back", to: lobby_path(@conn, :index) %> 
-
-<%= link "Join", to: lobby_path(@conn, :join, @lobby.id) %>
-<div class="lobby-header" style="background-image: url('<%= @lobby.game.image %>')"></div>
+<div class="row">
+  <div class="col-md-1 col-md-offset-5">
+  <%= link "Join", to: lobby_path(@conn, :join, @lobby.id), class: "join-lobby btn btn-success" %> 
+  </div>
+</div>
+<div class="lobby-header row"></div>
