@@ -39,6 +39,7 @@ defmodule Gamenect.Router do
     get "/login", UserController, :login
     post "/login", UserController, :login
     get "/logout", UserController, :logout
+    get "/confirm/:token", ConfirmationController, :confirm
   end
 
   # Other scopes may use custom stacks.

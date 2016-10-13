@@ -7,7 +7,8 @@ use Mix.Config
 
 # General application configuration
 config :gamenect,
-  ecto_repos: [Gamenect.Repo]
+  ecto_repos: [Gamenect.Repo],
+  confirmation_token_length: 42
 
 # Configures the endpoint
 config :gamenect, Gamenect.Endpoint,
