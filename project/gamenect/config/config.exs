@@ -17,6 +17,16 @@ config :gamenect, Gamenect.Endpoint,
   pubsub: [name: Gamenect.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
+config :gamenect, Gamenect.Mailer,
+  adapter: Bamboo.SMTPAdapter,
+  server: "smtp.mailgun.org",
+  port: 25,
+  username: "postmaster@sandbox2d876dea6fe0444ca5b58499d836b588.mailgun.org",
+  password: "41a05b9bf19ec145d43bb20741dfab1b",
+  tls: :if_available, # can be `:always` or `:never`
+  ssl: false, # can be `true`
+  retries: 3
+
 config :guardian, Guardian,
   allowed_algos: ["HS512"], # optional
   verify_module: Guardian.JWT,  # optional

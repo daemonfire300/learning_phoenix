@@ -1,6 +1,7 @@
 defmodule Gamenect.User do
   use Gamenect.Web, :model
   alias Comeonin.Bcrypt
+  alias Gamenect.Validators.Email
 
   schema "users" do
     field :name, :string
@@ -20,10 +21,11 @@ defmodule Gamenect.User do
   end
 
   def create_changeset(struct, params \\ %{}) do
-    changeset = cast(struct, params, [:name, :password])
+    changeset = cast(struct, params, [:name, :password, :email])
     changeset
-    |> validate_required([:name, :password])
+    |> validate_required([:name, :password, :email])
     |> validate_length(:password, min: 6, max: 32)
+    |> Email.validate_email(:email)
     |> put_change(:password, hash_password(get_field(changeset, :password)))
   end
 

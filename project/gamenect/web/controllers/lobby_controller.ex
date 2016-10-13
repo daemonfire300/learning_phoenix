@@ -39,13 +39,12 @@ defmodule Gamenect.LobbyController do
           "player_count" => player_count,
           "players" => Enum.map(players, fn(p) -> p.id end)
         })
-        IO.inspect user_lobby
         case Repo.insert(user_lobby) do
           {:ok, _joined} ->
             conn
             |> put_flash(:info, "Joined lobby")
             |> redirect(to: lobby_path(conn, :show, id))
-          {:error, changeset} ->
+          {:error, _changeset} ->
             conn
             |> put_flash(:error, "Could not join lobby")
             |> redirect(to: lobby_path(conn, :index))
@@ -68,14 +67,12 @@ defmodule Gamenect.LobbyController do
     %Gamenect.User{:id => user_id} = Guardian.Plug.current_resource(conn)
     lobby_params = Map.merge(lobby_params, %{"host_id" => user_id})
     changeset = Lobby.create_changeset(%Lobby{}, lobby_params)
-    IO.inspect changeset
     case Repo.insert(changeset) do
       {:ok, _lobby} ->
         conn
         |> put_flash(:info, "Lobby created successfully.")
         |> redirect(to: lobby_path(conn, :index))
       {:error, changeset} ->
-        IO.inspect changeset
         render(conn, "new.html", changeset: changeset)
     end
   end
@@ -83,7 +80,6 @@ defmodule Gamenect.LobbyController do
   def show(conn, %{"id" => id}) do
     lobby = Repo.get!(Lobby, id) |> Repo.preload([:host, :game])
     players = get_players(id)
-    IO.inspect players
     render(conn, "show.html", lobby: lobby, players: players)
   end
 

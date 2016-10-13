@@ -27,11 +27,11 @@ defmodule Gamenect.LobbyView do
     end
   end
 
-  def status_to_icon(status) do
+  def status_to_icon(_) do
     "glyphicon glyphicon-flash"
   end
 
-  def is_owner(nil, lobby) do
+  def is_owner(nil, _) do
     false
   end
   
